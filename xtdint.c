@@ -15,3 +15,5 @@ u2048* U2048(u8* v, u16 s)
         
     return w;
 }
+
+s2048* S2048(u8* v, u16 s){ return U2048(v, s);}

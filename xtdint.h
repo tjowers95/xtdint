@@ -1,5 +1,5 @@
-#ifndef _INTN_H_
-#define _INTN_H_
+#ifndef _XTDINT_H_
+#define _XTDINT_H_
 typedef unsigned char u8; typedef char s8;typedef unsigned short u16; typedef short s16;
 typedef unsigned int u32; typedef int s32;typedef unsigned long long u64; typedef long long s64;
 typedef struct u2048 {u64 n[32];} u2048; typedef u2048 s2048;

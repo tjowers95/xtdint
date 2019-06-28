@@ -78,7 +78,17 @@ shift (u2048 * v, s32 n)
     }
     else // negative
     {
-        
+        u64 ps0 = 0, ps1 = 0;
+        s32 u0 = u;
+        for (u8 i = 0; i < -u; i++)
+        {
+            for (int j = 31; j > -1; j--)
+            {
+                ps1 = v->n[j];
+                v->n[j] = ps0;
+                ps0 = ps1;
+            }
+        }
     }
     
     

@@ -54,14 +54,14 @@ void printb(u2048 *v)
 }
 void shift(u2048 *v, s32 n)
 {
-    s32 u = n / 64; // this will be the number of array positions that will be shifted
+    s32 u = n / 64;
     s32 n0 = n;
     s32 chk_sign = n & 0x80000000;
 
     if (!chk_sign) // positive
     {
-        u64 ps0 = 0, ps1 = 0, ps2 = 0, ps3 = 0; // previous state
-        s32 u0 = u;           // save u state
+        u64 ps0 = 0, ps1 = 0, ps2 = 0, ps3 = 0;
+        s32 u0 = u;
         u64 s = 1;
         n0 -= u*64; s32 n1 = n0;
 
@@ -76,23 +76,17 @@ void shift(u2048 *v, s32 n)
                     ps0 = ps1;
             }
         }
-        while (--u0)
-            v->n[u0 - 1] = 0;
+        if (u0 != 0)
+            while (--u0)
+                v->n[u0 - 1] = 0;
 
-        if (n >= 64)
+        ps0 = 0; ps1 = 0; ps2 = 0;
+        for (u8 i = u; i < 32; i++)
         {
-            ps0 = 0; ps1 = 0; ps2 = 0;
-            for (u8 i = u; i < 32; i++)
-            {
-                ps0 = v->n[i] >> n1;
-                ps3 = v->n[i];
-                v->n[i] = ps0 | ps1;
-                ps1 = (ps3 & s) << (64 - n1);
-            }
-        }
-        else
-        {
-
+            ps0 = v->n[i] >> n1;
+            ps3 = v->n[i];
+            v->n[i] = ps0 | ps1;
+            ps1 = (ps3 & s) << (64 - n1);
         }
     }
     else // negative
@@ -110,24 +104,17 @@ void shift(u2048 *v, s32 n)
                 ps0 = ps1;
             }
         }
-        while (++u0)
-            v->n[32 + u0] = 0;
+        if (u0 != 0)
+            while (++u0)
+                v->n[32 + u0] = 0;
         
-        if (n <= -64)
+        ps0 = 0; ps1 = 0; ps2 = 0;
+        for (s8 i = 31 + u; i >= 0; i--)
         {
-            ps0 = 0; ps1 = 0; ps2 = 0;
-            printf("u = %d\n", u);
-            for (s8 i = 31 + u; i >= 0; i--)
-            {
-                ps0 = v->n[i] << (64 - n1);
-                ps3 = v->n[i];
-                v->n[i] = ps0 | ps1;
-                ps1 = (ps3 & s) >> (n1);
-            }
-        }
-        else
-        {
-
+            ps0 = v->n[i] << (64 - n1);
+            ps3 = v->n[i];
+            v->n[i] = ps0 | ps1;
+            ps1 = (ps3 & s) >> (n1);
         }
     }
 }

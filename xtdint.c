@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 u2048 *
-U2048(u8 *v, u16 s)
+U2048(const u8 *__restrict v, u16 s)
 {
     if (s > 256)
         return NULL;
@@ -19,7 +19,7 @@ U2048(u8 *v, u16 s)
     return w;
 }
 
-void printx(u2048 *v)
+void printx(const u2048 *__restrict v)
 {
     u8 *w = (u8 *)v->n;
     for (int i = 1; i <= 256; i++)
@@ -35,11 +35,12 @@ void printx(u2048 *v)
     printf("\n");
 }
 
-void printb(u2048 *v)
+
+void _u2048p_printb(const u2048 *__restrict v)
 {
-    for (int i = 0; i < 32; i++)
+    for (s8 i = 0; i < 32; i++)
     {
-        for (int j = 63; j > -1; j--)
+        for (s8 j = 63; j > -1; j--)
         {
             if (v->n[i] & ((u64)1 << j))
                 printf("1");
@@ -50,9 +51,21 @@ void printb(u2048 *v)
         }
         printf("\n");
     }
+}
+void _u64_printb(u64 v)
+{
+    for (s8 j = 63; j > -1; j--)
+    {
+        if (v & ((u64)1 << j))
+            printf("1");
+        else
+            printf("0");
+        if (!(j % 8))
+            printf(" ");
+    }
     printf("\n");
 }
-void shift(u2048 *v, s32 n)
+void shift(u2048 *__restrict v, s32 n)
 {
     s32 u = n / 64;
     s32 n0 = n;
@@ -119,7 +132,11 @@ void shift(u2048 *v, s32 n)
     }
 }
 
-void endian_mod(void *v, int n)
+void add(const u2048*__restrict v, const u2048*__restrict w)
+{
+
+}
+
+void endian_mod(const void *__restrict v, int n)
 {
 }
-s2048 *S2048(u8 *v, u16 s) { return U2048(v, s); }

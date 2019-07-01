@@ -12,16 +12,16 @@ typedef struct u2048
 {
     u64 n[32];
 } u2048;
-typedef u2048 s2048;
-extern u2048 *U2048(u8 *v, u16 s);
-extern s2048 *S2048(u8 *v, u16 s);
-extern void shift(u2048 *v, s32 n);
-extern void add(u2048 *v, u2048 *w);
-extern void add_s(s2048 *v, s2048 *w);
-extern void sub(u2048 *v, u2048 *w);
-extern void sub_s(s2048 *v, s2048 *w);
-extern void mul(u2048 *v, u2048 *w);
-extern void mul_s(s2048 *v, s2048 *w);
-extern void printb(u2048 *v);
-#define to_u64(a, b, c, d, e, f, g, h) ((((u64)a) << 56) | (((u64)b) << 48) | (((u64)c) << 40) | (((u64)d) << 32) | (((u64)e) << 24) | (((u64)f) << 16) | (((u64)g) << 8) | (((u64)g) << 8) | ((u64)h))
+typedef struct u16384
+{
+    u64 n[256];
+} u16384;
+extern u2048 *U2048(const u8 *__restrict__ v, u16 s);
+extern void shift(u2048 *__restrict__ v, s32 n);
+extern void add(const u2048 *__restrict__ v, const u2048 *__restrict__ w);
+extern void sub(const u2048 *__restrict__ v, u2048 *__restrict__ w);
+extern void mul(const u2048 *__restrict__ v, u2048 *__restrict__ w);
+extern void _u2048p_printb(const u2048 *__restrict__ v);
+extern void _u64_printb(u64 v);
+#define printb(x) _Generic((x), u2048*: _u2048p_printb, u64: _u64_printb, long unsigned int: _u64_printb, default: _u64_printb)(x)
 #endif

@@ -1,5 +1,7 @@
 #include "xtdint.h"
+#include <OpenCL/opencl.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 u2048 *
 U2048(const u8 *__restrict v, u16 s)
@@ -70,16 +72,15 @@ void shift(u2048 *__restrict v, s32 n)
     s32 u = n / 64;
     s32 n0 = n;
     s32 chk_sign = n & 0x80000000;
+    u64 ps0 = 0, ps1 = 0, ps2 = 0, ps3 = 0;
+    s32 u0 = u;
+    u64 s = 1;
+    n0 -= u*64;
+    s32 n1 = n0;
 
     if (!chk_sign) // positive
     {
-        u64 ps0 = 0, ps1 = 0, ps2 = 0, ps3 = 0;
-        s32 u0 = u;
-        u64 s = 1;
-        n0 -= u*64; s32 n1 = n0;
-
         while (--n0) s |= (u64)1 << n0;
-
         for (u8 i = 0; i < u; i++)
         {
             for (u8 j = 0; j < 32; j++)
@@ -104,10 +105,7 @@ void shift(u2048 *__restrict v, s32 n)
     }
     else // negative
     {
-        u64 ps0 = 0, ps1 = 0, ps2 = 0, ps3 = 0;
-        s32 u0 = u;
-        u64 s = 1;
-        n0 -= u*64; s32 n1 = n0;
+        while(++n0) s |= (u64)1 << (-n0);
         for (u8 i = 0; i < -u; i++)
         {
             for (s8 j = 31; j > -1; j--)
@@ -132,11 +130,9 @@ void shift(u2048 *__restrict v, s32 n)
     }
 }
 
-void add(const u2048*__restrict v, const u2048*__restrict w)
+void add(const u2048*__restrict v, u2048*__restrict w)
 {
-
-}
-
-void endian_mod(const void *__restrict v, int n)
-{
+    for (int i = 0; i < 32; i++){
+        v->n[i] += w->n[i];
+    }
 }

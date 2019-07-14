@@ -12,13 +12,10 @@ typedef struct u2048
 {
     u64 n[32];
 } u2048;
-typedef struct u16384
-{
-    u64 n[256];
-} u16384;
+
 extern u2048 *U2048(const u8 *__restrict__ v, u16 s);
 extern void shift(u2048 *__restrict__ v, s32 n);
-extern void add(const u2048 *__restrict__ v, const u2048 *__restrict__ w);
+extern void add(const u2048 *__restrict__ v, u2048 *__restrict__ w);
 extern void sub(const u2048 *__restrict__ v, u2048 *__restrict__ w);
 extern void mul(const u2048 *__restrict__ v, u2048 *__restrict__ w);
 extern void _u2048p_printb(const u2048 *__restrict__ v);

@@ -38,7 +38,7 @@ void printx(const u2048 *__restrict v)
 }
 
 
-void _u2048p_printb(const u2048 *__restrict v)
+void printb(const u2048 *__restrict v)
 {
     for (s8 i = 0; i < 32; i++)
     {
@@ -54,7 +54,7 @@ void _u2048p_printb(const u2048 *__restrict v)
         printf("\n");
     }
 }
-void _u64_printb(u64 v)
+void printb(u64 v)
 {
     for (s8 j = 63; j > -1; j--)
     {
